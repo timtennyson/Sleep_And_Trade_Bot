@@ -9,9 +9,8 @@ This bot trades cryptocurrencies using pine strategies in Tradingview. The pine 
 
 
 
-
-### Technologies
 ---
+### Technologies
 Python<br>
 Pandas<br>
 Jupyter Lab<br>
@@ -19,14 +18,12 @@ Tradeview<br>
 XGBoost<br>
 
 
-
-### Contributors
 ---
+### Contributors
 Loc Thai, Tim Tennyson, Rachel Bates, Daniel English, Kim Tung, Vic Gellon<br>
 
-
-### License
 ---
+### License
 MIT<br>
 
 
