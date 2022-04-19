@@ -16,6 +16,7 @@ Pandas<br>
 Jupyter Lab<br>
 Tradeview<br>
 XGBoost<br>
+SciKitLearn<br>
 
 
 ---
