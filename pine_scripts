@@ -1,0 +1,136 @@
+//@version=3
+// Chart is forked from [krogsgard] (Thanks!)
+//strategy logic is our own
+strategy(title="Ichimoku Cloud with Presets [FinTech!!!]", shorttitle="Ichimoku [FinTech!!!]", overlay=true)
+
+xlowest_(src, len) =>
+    x = src
+    for i = 1 to len - 1
+        v = src[i]
+        if (na(v))
+            break
+        x := min(x, v)
+    x
+
+xlowest(src, len) =>
+    na(src[len]) ? xlowest_(src, len) : lowest(src, len)
+
+xhighest_(src, len) =>
+    x = src
+    for i = 1 to len - 1
+        v = src[i]
+        if (na(v))
+            break
+        x := max(x, v)
+    x
+
+xhighest(src, len) =>
+    na(src[len]) ? xhighest_(src, len) : highest(src, len)
+
+dropn(src, n) =>
+    na(src[n]) ? na : src
+
+
+ichiConversionPeriods(presets) =>
+    if presets == "Cpt 20 60 120 30"
+        20
+    else
+        if presets == "Cpt 10 30 60 30"
+            10
+        else
+            if presets == "Std 18 52 104 26"
+                18
+            else
+                9
+
+ichiBasePeriods(presets) =>
+    if presets == "Cpt 20 60 120 30"
+        60
+    else
+        if presets == "Cpt 10 30 60 30"
+            30
+        else
+            if presets == "Std 18 52 104 26"
+                52
+            else
+                26
+
+ichiLaggingSpan2Periods(presets) =>
+    if presets == "Cpt 20 60 120 30"
+        120
+    else
+        if presets == "Cpt 10 30 60 30"
+            60
+        else
+            if presets == "Std 18 52 104 26"
+                104
+            else
+                52
+
+ichiDisplacement(presets) =>
+    if presets == "Cpt 20 60 120 30"
+        30
+    else
+        if presets == "Cpt 10 30 60 30"
+            30
+        else
+            if presets == "Std 18 52 104 26"
+                26
+            else
+                26
+
+scaling = input(title="Scaling", options=["Linear", "Log"], defval="Linear")
+presets = input(title="Presets", type=string, options=["Cpt 20 60 120 30", "Cpt 10 30 60 30", "Std 18 52 104 26", "Std 9 26 52 26"], defval="Cpt 20 60 120 30")
+dropCandles = input(1, minval=0, title="Drop first N candles")
+showLagging = input(false, "Show Lagging Span")
+
+conversionPeriods = ichiConversionPeriods(presets)
+basePeriods = ichiBasePeriods(presets)
+laggingSpan2Periods = ichiLaggingSpan2Periods(presets)
+displacement = ichiDisplacement(presets)
+logScaling = scaling == "Log"
+
+lows = dropn(low, dropCandles)
+highs = dropn(high, dropCandles)
+
+lowsp = logScaling ? log(lows) : lows
+highsp = logScaling ? log(highs) : highs
+
+donchian(len) =>
+    avg(xlowest(lowsp, len), xhighest(highsp, len))
+
+conversionLine = donchian(conversionPeriods)
+baseLine = donchian(basePeriods)
+leadLine1 = avg(conversionLine, baseLine)
+leadLine2 = donchian(laggingSpan2Periods)
+
+conversionLinep = logScaling ? exp(conversionLine) : conversionLine
+baseLinep = logScaling ? exp(baseLine) : baseLine
+leadLine1p = logScaling ? exp(leadLine1) : leadLine1
+leadLine2p = logScaling ? exp(leadLine2) : leadLine2
+
+p1 = plot(leadLine1p, offset = displacement, color=#1c888e, transp=0.1, title="Lead 1")
+p2 = plot(leadLine2p, offset = displacement, color=#fc4c2a, transp=0.1, title="Lead 2")
+fill(p1, p2, color = (leadLine1p > leadLine2p ? #28b1b350 : #fc4c2a50 ) )
+
+plot(conversionLinep, color=#1c888e, transp=.65, linewidth=2, title="Tenkan")
+plot(baseLinep, color=#fc4c2a, transp=.65, linewidth=2, title="Kijun")
+plot(showLagging ? close : na, offset = -displacement, color=#fee59e, title="Lagging Span")
+
+
+
+//TRADING LOGIC---------------------------------------------------------------------------------------------------
+
+if (conversionLine > baseLine * 1.2 and close < conversionLine)
+    strategy.close("Buy")
+else 
+    if (conversionLine > baseLine and conversionLine > leadLine1 and conversionLine > leadLine2 and open > conversionLine)
+        strategy.entry("Buy", strategy.long, comment="Buy")
+
+if (conversionLine < baseLine * .75 and close > conversionLine)
+    strategy.entry("Buy", strategy.long, comment="Buy")
+else
+    if (conversionLine < baseLine)
+        strategy.close("Buy")
+
+
