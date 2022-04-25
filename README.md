@@ -8,7 +8,7 @@ This bot trades cryptocurrencies using pine strategies in Tradingview. The pine 
 
 To use, open TradingView in your web browser. Select an asset and the time frame you wish to use. Open the strategies tab. Copy the text of the pine strategy file and paste into the strategy editor window. Save the strategy and apply it to the chart. This will also conveniently provide analytics for the given strategy.
 
-!(images/ETHUSD_2022-04-24_21-48-18.png)
+![ETHUSD_2022-04-24_21-48-18.png](Images/ETHUSD_2022-04-24_21-48-18.png)
 To run the bot, tradingview provides a lot of options for execution using apis from a variety of brokers (including Alpaca, Gemini, Kraken, etc).
 
 The ability to update the pine strategies automatically using the algorithms based on current market events is being developed; current strategies have been encoded using the results of the jupyter notebook files used for machine learning analysis of the indicator data.
