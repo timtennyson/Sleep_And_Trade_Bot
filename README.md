@@ -5,6 +5,9 @@
 This project contains a AI trading bot that trades cryptocurrency by using a combination of market indicators (such as MACD, SMA, Alligator, RSI, CCI, VWAP, Supertrend, etc.) to maximize returns, while minimizing maximum drawdown. To ensure the models work for a range of crypto this project backtests on two large value coins (BTC,ETH), two mid-sized coins (AVAX,BAT) and two small tokens (LINK, MATIC). The method is also tested on different time intervals (15m, 1hr, 4hr, and 1d). 
 <br><br>
 This bot trades cryptocurrencies using pine strategies in Tradingview. The pine strategies are optimized using machine learning techniques generated in a Jupyter Lab notebook using the XGBoost Algorithm and Linear Regression.
+
+To use, copy the text of the pine strategy file and paste into the tradingview strategy editor window. This will also conveniently provide analytics for the given strategy.
+
 <br><br>
 
 
