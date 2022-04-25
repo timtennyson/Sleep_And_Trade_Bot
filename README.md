@@ -24,7 +24,7 @@ The ability to update the pine strategies automatically using the algorithms bas
 Python<br>
 Pandas<br>
 Jupyter Lab<br>
-Tradeview<br>
+Tradingview<br>
 XGBoost<br>
 SciKitLearn<br>
 
