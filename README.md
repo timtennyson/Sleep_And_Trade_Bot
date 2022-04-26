@@ -6,7 +6,9 @@ This project contains a AI trading bot that trades cryptocurrency by using a com
 <br><br>
 This bot trades cryptocurrencies using pine strategies in Tradingview. The pine strategies are optimized using machine learning techniques generated in a Jupyter Lab notebook using the XGBoost Algorithm and Linear Regression.
 
+#### Bitcoin preditions based on 300 15 minute intervals
 ![XGBoost Regression Bitcoin predictions](Images/btc_predictions.png)
+
 
 To use, open TradingView in your web browser. Select an asset and the time frame you wish to use. Open the strategies tab. Copy the text of the pine strategy file and paste into the strategy editor window. Save the strategy and apply it to the chart. This will also conveniently provide analytics for the given strategy.
 
